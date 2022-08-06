@@ -1,7 +1,12 @@
 # wtfos-healthchecks
-Health check units for the configurator
+Health check units for the wtfos configurator. These are automation scripts to check for and fix issues occurring outside of what is possible with package updates due to one reason or another.
+
+_If the issue can be fixed by simply publishing an update on an existing package then a healtheck unit should be avoided._
 
 # Units
+Units will be executed in alpabhetical order after adb connection and any non-passing units should be displayed to the user in the header of the application regadless of which page they are on.
+
+All checks _must_ be passed in order to install wtfos.
 
 ## Check
 A unit should be an executable (bash script) that gets called with 0 arguments to diagnose if it's issue is present. The units exit code should be:
