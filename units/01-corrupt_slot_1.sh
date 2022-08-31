@@ -1,6 +1,6 @@
 #/bin/sh
 
-#this script checks for a corrupt slot 1 and will reflash it if necessary and ota.zip is available 
+#this script checks for a corrupt slot 1 and will reflash it if necessary and ota.zip is available
 check () {
     #check whatever our conditions is - this may be more complicated for other issues
     if [ $(unrd slot_1.status_successful) != "1" ]; then
@@ -24,6 +24,8 @@ fix () {
     update_engine --update_package=/cache/ota.zip
     echo "Slot 1 restored to factory state"
 
+    echo "Rebooting"
+    reboot
 }
 
 #run the check
@@ -35,7 +37,7 @@ if [ $result -ne 0 ]; then
         #if the first arg is "fix" proceed to fix
         fix
         exit $?
-    else 
+    else
         #otherwise exit with the check results
         exit $result
     fi
