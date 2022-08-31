@@ -1,28 +1,22 @@
 #/bin/sh
 
 #this script checks for an orphaned wtfos is /blackbox and cleans it up
-
+set -x
+set -e
 check () {
-    #if /blackbox/wtfos exists
-    if [ -d /blackbox/wtfos ]; then
+    #if system.img is not mounted
+    if ! mount | grep "/dev/loop" ; then
+        ##and wtfos is found in startup script and it's not leftovers
         if grep -q "#wtfos" /system/bin/*start_dji_system.sh && ! grep -q "#these are leftovers" /system/bin/*start_dji_system.sh ; then
-            #wtfos is installed in this slot, all good (for this unit)
-            return 0
-        elif mount | grep "/dev/loop"; then
-            #wtfos is running, so can't be orphan
-            return 0
+            echo "wtfos is installed but system.img is not mounted, please try re-installing wtfos"
+            return 1
         fi
-
-        #check if there are signs of wtfos scripts in current startup scripts
-        echo "orphan wtfos install from slot 2 in /blackbox found, cleanup required"
-        return 2
     fi
 }
 
 fix () {
-    echo "cleaning up /blackbox/wtfos"
-    rm -rf /blackbox/wtfos
-    rm -rf /blackbox/wtfos.log
+    echo "no fix available"
+    return 1
 }
 
 #run the check
