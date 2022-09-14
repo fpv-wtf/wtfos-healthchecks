@@ -8,7 +8,7 @@ check () {
             echo "Slot 1 is corrupt, ota.zip available, can reflash"
             return 2
         else
-            echo "Slot 1 is currupt and ota.zip is not available, please contact support"
+            echo "Slot 1 is corrupt and ota.zip is not available, please contact support"
             return 1
         fi
     fi
