@@ -20,6 +20,7 @@ if [ $(unrd slot_1.status_successful) != "1" ]; then
 fi
 
 unrd slot_1.status_successful 0
+touch /data/wtfos_slot_attempt
 
 set +e
 sh $UNITS/$UNIT
