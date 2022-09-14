@@ -1,6 +1,6 @@
 check () {
     #check whatever our conditions is - this may be more complicated for other issues
-    if [ $(unrd slot_1.status_successful) != "1" ]; then
+    if [ $(unrd slot_1.status_successful) != "1" ] || [ $(slot_1.status_bootable) != "1" ]; then
         echo "Slot 1 is corrupt, can reflash from Slot 2"
         return 2
 
@@ -13,6 +13,7 @@ fix () {
     dd if=/dev/block/platform/soc/f0000000.ahb/f0400000.dwmmc0/mirror/system of=/dev/block/platform/soc/f0000000.ahb/f0400000.dwmmc0/mirror/system_2 bs=1048675
     unrd slot_1.status_successful 1
     unrd slot_1.status_active 1
+    unrd slot_1.status_bootable 1
     unrd slot_2.status_active 0
     echo "Slot 1 restored to good state"
     echo "Rebooting"
