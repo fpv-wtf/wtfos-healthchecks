@@ -1,8 +1,6 @@
 #/bin/sh
 
 #this script checks for an orphaned wtfos is /blackbox and cleans it up
-set -x
-set -e
 check () {
     #if system.img is not mounted
     if ! mount | grep "/dev/loop" ; then
