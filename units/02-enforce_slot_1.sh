@@ -1,9 +1,8 @@
 #/bin/sh
-
 #this script enforces wtfos usage to slot 1 and will re-flash slot 1 before switching if it appears corrupt
 check () {
     #check whatever our conditions is - this may be more complicated for other issues
-    if [ $(unrd slot_1.status_active) == "1" ] && [ $(unrd slot_1.status_successful) == "1" ]; then
+    if [ "$(unrd slot_1.status_active)" == "1" ] && [ "$(unrd slot_1.status_successful)" == "1" ]; then
         ##and return 0 if all is well
         return 0
     else

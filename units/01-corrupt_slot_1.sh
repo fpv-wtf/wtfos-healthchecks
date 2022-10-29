@@ -3,7 +3,7 @@
 #this script enforces wtfos usage to slot 1 and will re-flash slot 1 before switching if it appears corrupt
 check () {
     #check whatever our conditions is - this may be more complicated for other issues
-    if [ $(unrd slot_1.status_successful) != "1" ] || [ $(unrd slot_1.status_bootable) != "1" ]; then
+    if [ "$(unrd slot_1.status_successful)" != "1" ] || [ "$(unrd slot_1.status_bootable)" != "1" ]; then
         echo "Slot 1 is corrupt, can reflash from Slot 2"
         return 2
 
@@ -14,10 +14,11 @@ fix () {
     echo "reflashing slot_1"
     echo "please wait, this will take a few minutes"
     if [ -f /cache/ota.zip ] ; then
-        if mount | grep -q '/proc/cmdline' -q; then
+        while mount | grep -q '/proc/cmdline' -q; do
             echo "removing cmdline bindmount"
             umount /proc/cmdline
-        fi
+            sleep 1
+        done
         echo "reflashing from ota.zip"
         echo "please wait, this will take a few minutes"
         update_engine --update_package=/cache/ota.zip
