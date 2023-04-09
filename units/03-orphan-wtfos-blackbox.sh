@@ -8,19 +8,19 @@ check () {
         if grep -q "#wtfos" /system/bin/*start_dji_system.sh && ! grep -q "#these are leftovers" /system/bin/*start_dji_system.sh ; then
             #wtfos is installed in this slot, all good (for this unit)
             return 0
-        elif mount | grep "/dev/loop"; then
+        elif mount | grep -q "/dev/loop"; then
             #wtfos is running, so can't be orphan
             return 0
         fi
 
         #check if there are signs of wtfos scripts in current startup scripts
-        echo "orphan wtfos install from slot 2 in /blackbox found, cleanup required"
+        echo "Orphan wtfos install from slot 2 in /blackbox found, cleanup required"
         return 2
     fi
 }
 
 fix () {
-    echo "cleaning up /blackbox/wtfos"
+    echo "Cleaning up /blackbox/wtfos"
     rm -rf /blackbox/wtfos
     rm -rf /blackbox/wtfos.log
 }

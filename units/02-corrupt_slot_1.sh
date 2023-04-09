@@ -4,26 +4,26 @@
 check () {
     #check whatever our conditions is - this may be more complicated for other issues
     if [ "$(unrd slot_1.status_successful)" != "1" ] || [ "$(unrd slot_1.status_bootable)" != "1" ]; then
-        echo "Slot 1 is corrupt, can reflash from Slot 2"
+        echo "Slot 1 is corrupt, can reflash"
         return 2
 
     fi
 }
 
 fix () {
-    echo "reflashing slot_1"
-    echo "please wait, this will take a few minutes"
+    echo "Reflashing slot_1"
+    echo "Please wait, this will take a few minutes"
     if [ -f /cache/ota.zip ] ; then
         while mount | grep -q '/proc/cmdline' -q; do
             echo "removing cmdline bindmount"
             umount /proc/cmdline
             sleep 1
         done
-        echo "reflashing from ota.zip"
-        echo "please wait, this will take a few minutes"
+        echo "Reflashing from ota.zip"
+        echo "Please wait, this will take a few minutes"
         update_engine --update_package=/cache/ota.zip
     else
-        echo "reflashing from slot 2"
+        echo "Reflashing from slot 2"
         dd if=/dev/block/platform/soc/f0000000.ahb/f0400000.dwmmc0/mirror/system of=/dev/block/platform/soc/f0000000.ahb/f0400000.dwmmc0/mirror/system_2 bs=1048675
         dd if=/dev/block/platform/soc/f0000000.ahb/f0400000.dwmmc0/mirror/vendor of=/dev/block/platform/soc/f0000000.ahb/f0400000.dwmmc0/mirror/vendor_2 bs=1048675
         dd if=/dev/block/platform/soc/f0000000.ahb/f0400000.dwmmc0/mirror/cp of=/dev/block/platform/soc/f0000000.ahb/f0400000.dwmmc0/mirror/cp_2 bs=1048675
@@ -33,6 +33,7 @@ fix () {
         unrd slot_1.status_active 1
         unrd slot_1.status_bootable 1
         unrd slot_2.status_active 0
+        unrd slot_1.system_md5 $(unrd slot_2.system_md5)
         unrd force_ota 0
     fi
     echo "Slot 1 restored to good state"

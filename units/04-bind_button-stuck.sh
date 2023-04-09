@@ -4,7 +4,7 @@
 check () {
     #if system.img is not mounted
     if [ ! -f /data/wtfos_disable_bind ] && getevent -i -l | grep -q "KEY_PROG3\\*"; then
-        echo "bind button in pressed state, cannot use for safe mode activation. make sure it is not pressed down, refresh the page to re-check. press 'fix' to ignore bind button at startup."
+        echo "Bind button in pressed state, cannot use for safe mode activation. Make sure it is not pressed down, refresh the page to re-check. Press 'fix' to ignore bind button at startup."
         return 2
     fi
 }
