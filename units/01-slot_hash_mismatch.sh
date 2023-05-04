@@ -2,6 +2,10 @@
 
 #this script enforces wtfos usage to slot 1 and will re-flash slot 1 before switching if it appears corrupt
 check () {
+    #if either of the md5s is null, lets set it to a default value so the rest works as expected
+    unrd slot_1.system_md5 2>&1 > /dev/null || unrd slot_1.system_md5 "deadbeef" 2>&1 > /dev/null 
+    unrd slot_2.system_md5 2>&1 > /dev/null || unrd slot_2.system_md5 "deadbeef" 2>&1 > /dev/null 
+    
     #check whatever our conditions is - this may be more complicated for other issues
     if [ "$(unrd slot_1.system_md5)" != "$(unrd slot_2.system_md5)" ]; then
         echo "Firmware slot version mismatch, can reflash"
