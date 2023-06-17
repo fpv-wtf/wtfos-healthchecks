@@ -6,10 +6,7 @@ set -x
 UNITS="$( dirname -- "$0"; )/../units"
 UNIT=$(basename -- "$0"; )
 
-
-
 set +e
-
 
 if mount | grep "/dev/loop"; then 
     remount_system=true

@@ -82,6 +82,7 @@ jobs:
           mkdir healthchecks
           cp -r tests ./healthchecks/
           cp -r units ./healthchecks/
+          cp -r busybox ./healthchecks/
           tar -zcvf healthchecks.tar.gz healthchecks
 
       - name: Upload release artifacts
